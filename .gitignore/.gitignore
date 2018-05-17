@@ -1,0 +1,161 @@
+//BISECCION
+x0=input('Ingrese el valor inicial: ');
+tol=input('Ingrese el porcentaje de error: ');
+f=input('Ingrese la función: ');
+i=1;
+fx(i)=x0;
+ 
+syms x;
+f1=subs(f,x,fx(i));
+z=diff(f);
+d=subs(z,x,fx(i));
+ 
+ea(1)=100;
+ 
+while abs(ea(i))>=tol;
+    fx(i+1)=fx(i)-f1/d; f1=subs(f,x,fx(i+1)); d=subs(z,x,fx(i+1));
+    ea(i+1)=abs((fx(i+1)-fx(i))/fx(i+1)*100);
+    i=i+1;
+end
+fprintf('i     fx(i)         Error aprox (i) \n');
+for j=1:i;
+    fprintf('%2d \t %11.7f \t %7.3f \n',j-1,fx(j),ea(j));
+end
+
+
+
+// Gauss
+
+row = input('Ingrese número de filas ');
+ column = input ('Ingrese número de columnas ');
+ 
+ 
+ 
+ for a = 1 : row
+ for b = 1 : column
+ 
+ valor = input('Ingrese valor de constante ');
+ matriz(a , b) = valor;
+ end
+ end
+ disp('La matriz es')
+ matriz
+ 
+ 
+ for c = 1 : row - 1
+ for f = 1 : column
+ if(c == f)
+ if matriz (c , f) == 0 && matriz (c + 1 , f) ~= 0
+ for a = c : row - 1
+ for b = 1 : column
+ 
+ arreglo2(b) = matriz(a , b);
+ arreglo3(b) = matriz(a + 1 , b);
+ end
+ end
+ 
+ for a = c : row - 1
+ for b = 1 : column
+ 
+ matriz(c , b) = arreglo3(b);
+ matriz(a + 1 , b) = arreglo2(b);
+ end
+ end
+ 
+ sprintf('Hubo un cambio entre la fila %d y %d', c, c + 1)
+ end
+ for a = c : row - 1
+ for b = 1 : column
+ 
+ arreglo(b) = matriz(c , b);
+ arreglo1(b) = matriz(a + 1 , b);
+ end
+ 
+ d = arreglo(c);
+ e = arreglo1(c);
+ 
+ for b = 1 : column
+ 
+ arreglo(b) = (arreglo(b)/d)*e;
+ arreglo1(b) = arreglo1(b) - arreglo(b);
+ end
+ 
+ for b = 1 : column
+ matriz(a + 1 , b) = arreglo1(b);
+ end
+ end
+ end
+ end
+ end
+ 
+ disp('La matriz con pivote parcial es')
+ matriz
+ 
+ 
+ for c = row : -1 : 1
+ for f = column : -1 : 1
+ if(c == f)
+ if( matriz(c , f) == 0)
+ continue;
+ 
+ 
+ for a = c: -1 : 1
+ for b = 1 : column
+ 
+ arreglo(b) = matriz(c , b);
+ arreglo1(b) = matriz (a - 1 , b);
+ end
+ 
+ d = arreglo(c);
+ e = arreglo1(c);
+ 
+ for b = 1 : column
+ 
+ arreglo(b) = (arreglo(b)/d)*e;
+ arreglo1(b) = arreglo1(b) - arreglo(b);
+ end
+ 
+ for b = 1 : column
+ matriz (a - 1 , b) = arreglo1(b);
+ 
+ end
+ end
+ end
+ end
+ end
+ end
+ 
+ 
+ 
+ disp('La matriz con pivote total es')
+ matriz
+ for j=row:-1:2
+     for i=j-1:-1:1
+        matriz(i,:)=matriz(i,:)-(matriz(i,j)/matriz(j,j))*matriz(j,:);
+     end
+ end
+matriz
+
+//  Newton
+clear all
+format short;
+a=input('Introduzca el valor de a: ');
+b=input('Introduzca el valor de b: ');
+cont=input('Introduzca el número de iteraciones cont: ');
+fun=input('Introduzca la funcion f(x)=','s');
+f=inline(fun);
+for k=1:cont
+    c=(a+b)/2;
+    e=abs((b-a)/2);
+    A(k,:)=[k a b c f(c) e];
+    if f(a)*f(c)<0
+        b=c;
+    else
+        a=c;
+    end
+end
+fprintf('\n \tk \ta \tb \tc \tf(c) \terror \n')
+disp(A)
+fprintf('Solución:\n c=%8.5f\n',c)
+fprintf('f(c)=%8.5f\n',f(c))
+fprintf('error=%8.5f\n',e)
